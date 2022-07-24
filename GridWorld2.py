@@ -176,3 +176,5 @@ if __name__ == "__main__":
     ag.play(50)
     print("latest Q-values ... \n")
     print(ag.Q_values)
+
+# source: https://towardsdatascience.com/implement-grid-world-with-q-learning-51151747b455
