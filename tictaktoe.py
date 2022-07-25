@@ -238,9 +238,10 @@ class Player:
         self.states = []
 
     def savePolicy(self):
-        fw = open('policy_' + str(self.name), 'wb')
+        fw = open('policy_' + str(self.name) + '.pickle', 'wb')
         pickle.dump(self.states_value, fw)
         fw.close()
+        print("model saved")
 
     def loadPolicy(self, file):
         fr = open(file, 'rb')
@@ -280,10 +281,11 @@ if __name__ == "__main__":
     st = State(p1, p2)
     print("training...")
     st.play(50000)
+    st.p1.savePolicy()
 
     # play with human
     p1 = Player("computer", exp_rate=0)
-    p1.loadPolicy("policy_p1")
+    p1.loadPolicy("policy_p1.pickle")
 
     p2 = HumanPlayer("human")
 
