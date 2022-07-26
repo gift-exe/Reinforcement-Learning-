@@ -8,7 +8,6 @@ LOSE_STATE = (1, 3)
 START = (2, 0)
 DETERMINISTIC = True
 
-
 class State:
     def __init__(self, state=START):
         self.board = np.zeros([BOARD_ROWS, BOARD_COLS])
@@ -74,7 +73,6 @@ class State:
 # Agent of player
 
 class Agent:
-
     def __init__(self):
         self.states = []
         self.actions = ["up", "down", "left", "right"]
