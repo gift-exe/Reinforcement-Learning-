@@ -1,17 +1,8 @@
-class Meme:
-    def __init__(self, topic, meta=None):
-        if meta is None:
-            self.topic = topic
-        else:
-            self.topic = '{topic}: \'{meta}\''.format(topic=topic, meta=meta.topic)
-    
-    def __str__(self):
-        return 'Topic: {}'.format(self.topic)
+#this is where i test various lines of code that confuses me 😅😭
+#or test some random ideas that pop up in my head
 
-def complain(meme)        :
-    complaint = Meme(topic='complaining about', meta=meme)
-    print(complaint)
-    complain(complaint)
+import numpy as np
 
-if __name__ == '__main__':
-    complain(Meme('What is stopping you from coding like this?'))
+
+print(np.random.uniform(0, 1))
+
