@@ -1,4 +1,3 @@
-from tkinter.tix import ROW
 import pygame
 
 WIN_HEIGHT = 400
