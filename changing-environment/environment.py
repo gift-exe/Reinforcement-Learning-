@@ -1,7 +1,7 @@
 import pygame
 
-WIN_HEIGHT = 400
-WIN_WIDTH = 400
+WIN_HEIGHT = 211
+WIN_WIDTH = 393
 ROWS = 7
 COLUMNS = 14
 
@@ -49,8 +49,8 @@ def make_grid(rows, columns, width):
     return grid
 
 def draw_grid(win, rows, columns, width, height):
-    r_gap = width // rows
-    c_gap = height // columns
+    r_gap =  height // rows
+    c_gap = width // columns
     for i in range(rows):
         pygame.draw.line(win, GREY, (0, i * r_gap), (width, i * r_gap))
         for j in range(columns):
