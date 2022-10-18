@@ -1,9 +1,10 @@
 import pygame
+import random
 
 WIN_HEIGHT = 211
 WIN_WIDTH = 393
-ROWS = 7
-COLUMNS = 14
+ROWS = 2
+COLUMNS = 5
 
 WHITE = (255, 255, 255)
 GREY = (128, 128, 128)
@@ -35,7 +36,7 @@ class Spot():
         return (self.row, self.column)
         
     def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x, self.y, self.spot_width, self.spot_width))
+        pygame.draw.rect(win, self.get_color(), (self.x, self.y, self.spot_width, self.spot_width))
         
 def make_grid(rows, columns, width):
     grid = []
@@ -45,7 +46,7 @@ def make_grid(rows, columns, width):
         for j in range(columns):
             spot = Spot(i, j, gap, rows)
             grid[i].append(spot)
-
+    
     return grid
 
 def draw_grid(win, rows, columns, width, height):
@@ -66,12 +67,22 @@ def draw(win, grid, rows, columns, width, height):
     draw_grid(win, rows, columns, width, height)
     pygame.display.update()
 
+#to create a function that randomly assign states to different spot objects in the grid
+def random_spot_chooser(grid):
+    x = random.randint(0, len(grid)-1)
+    y = random.randint(0, len(grid[x])-1)
+
+    return x, y
+    
 def main():
     global SCREEN, CLOCK
     pygame.init()
     SCREEN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+
     while True:
         grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
+        x, y =random_spot_chooser(grid)
+        grid[x][y].state = True
         draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
