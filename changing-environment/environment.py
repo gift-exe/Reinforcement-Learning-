@@ -1,10 +1,11 @@
 import pygame
 import random
+import time
 
 WIN_HEIGHT = 211
 WIN_WIDTH = 393
-ROWS = 2
-COLUMNS = 5
+ROWS = 7
+COLUMNS = 14
 
 WHITE = (255, 255, 255)
 GREY = (128, 128, 128)
@@ -63,7 +64,7 @@ def draw(win, grid, rows, columns, width, height):
     for row in grid:
         for spot in row:
             spot.draw(win)
-
+            
     draw_grid(win, rows, columns, width, height)
     pygame.display.update()
 
@@ -81,6 +82,7 @@ def main():
 
     while True:
         grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
+        time.sleep(1)
         x, y =random_spot_chooser(grid)
         grid[x][y].state = True
         draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
