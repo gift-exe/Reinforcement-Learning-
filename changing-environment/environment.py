@@ -2,8 +2,8 @@ import pygame
 import random
 import time
 
-WIN_HEIGHT = 211
-WIN_WIDTH = 393
+WIN_HEIGHT = 196
+WIN_WIDTH = 392
 ROWS = 7
 COLUMNS = 14
 
@@ -37,17 +37,17 @@ class Spot():
         return (self.row, self.column)
         
     def draw(self, win):
-        pygame.draw.rect(win, self.get_color(), (self.x, self.y, self.spot_width, self.spot_width))
+        pygame.draw.rect(win, self.get_color(), (self.x/2, self.y/2, self.spot_width/2, self.spot_width/2))
         
 def make_grid(rows, columns, width):
     grid = []
     gap = width // rows
-    for i in range(rows):
+    for i in range(columns):
         grid.append([])
-        for j in range(columns):
+        for j in range(rows):
             spot = Spot(i, j, gap, rows)
             grid[i].append(spot)
-    
+
     return grid
 
 def draw_grid(win, rows, columns, width, height):
@@ -60,7 +60,6 @@ def draw_grid(win, rows, columns, width, height):
 
 def draw(win, grid, rows, columns, width, height):
     win.fill(WHITE)
-
     for row in grid:
         for spot in row:
             spot.draw(win)
@@ -84,7 +83,7 @@ def main():
         grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
         time.sleep(1)
         x, y =random_spot_chooser(grid)
-        grid[x][y].state = True
+        grid[7][0].state = True
         draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
