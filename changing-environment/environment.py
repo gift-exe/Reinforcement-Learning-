@@ -83,7 +83,7 @@ def main():
         grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
         time.sleep(1)
         x, y =random_spot_chooser(grid)
-        grid[7][0].state = True
+        grid[x][y].state = True
         draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
