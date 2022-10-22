@@ -38,7 +38,25 @@ class Spot():
         
     def draw(self, win):
         pygame.draw.rect(win, self.get_color(), (self.x/2, self.y/2, self.spot_width/2, self.spot_width/2))
+    
+class Agent():
+    def __init__(self, column, row, width):
+        self.row = row
+        self.column = column
+        self.agent_width = width
+        self.color = AGENT
+    def get_coordinates(self):
+        x = self.agent_width * self.row
+        y = self.agent_width * self.column
+        return x, y
+
+    def get_pos(self):
+        return (self.row, self.column)
         
+    def draw(self, win):
+        pygame.draw.rect(win, self.color, (self.get_coordinates()[0], self.get_coordinates()[1], self.agent_width, self.agent_width))
+    
+
 def make_grid(rows, columns, width):
     grid = []
     gap = width // rows
@@ -58,14 +76,16 @@ def draw_grid(win, rows, columns, width, height):
         for j in range(columns):
             pygame.draw.line(win, GREY, (j* c_gap, 0), (j * c_gap, height))
 
-def draw(win, grid, rows, columns, width, height):
+def draw(win, grid, rows, columns, width, height, agent):
     win.fill(WHITE)
     for row in grid:
         for spot in row:
             spot.draw(win)
+    agent.draw(win)
             
     draw_grid(win, rows, columns, width, height)
     pygame.display.update()
+    return grid
 
 #to create a function that randomly assign states to different spot objects in the grid
 def random_spot_chooser(grid):
@@ -77,19 +97,35 @@ def random_spot_chooser(grid):
 def main():
     global SCREEN, CLOCK
     pygame.init()
+    fps=30
+    fpsclock=pygame.time.Clock()
     SCREEN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
-
+    grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
+    agent = Agent(0, 0, 28)
     while True:
-        grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
-        time.sleep(1)
-        x, y =random_spot_chooser(grid)
-        grid[x][y].state = True
-        draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
+        #x, y =random_spot_chooser(grid)
+        #grid[x][y].state = True
+        grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT, agent)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    if agent.get_pos()[0] != 0:
+                        agent.row = agent.row - 1
+                if event.key == pygame.K_w:
+                    if agent.get_pos()[1] != 0:
+                        agent.column = agent.column -1
+                if event.key == pygame.K_s:
+                    if agent.get_pos()[1] != 6:
+                        agent.column = agent.column + 1
+                if event.key == pygame.K_d:
+                    if agent.get_pos()[0] != 13:
+                        agent.row = agent.row + 1
 
         pygame.display.update()
+        fpsclock.tick(fps)
 
 main()
