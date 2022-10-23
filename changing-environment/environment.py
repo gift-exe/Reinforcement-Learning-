@@ -76,13 +76,12 @@ def draw_grid(win, rows, columns, width, height):
         for j in range(columns):
             pygame.draw.line(win, GREY, (j* c_gap, 0), (j * c_gap, height))
 
-def draw(win, grid, rows, columns, width, height, agent):
+def draw(win, grid, rows, columns, width, height):
     win.fill(WHITE)
     for row in grid:
         for spot in row:
             spot.draw(win)
-    agent.draw(win)
-            
+
     draw_grid(win, rows, columns, width, height)
     pygame.display.update()
     return grid
@@ -103,9 +102,11 @@ def main():
     grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
     agent = Agent(0, 0, 28)
     while True:
-        #x, y =random_spot_chooser(grid)
-        #grid[x][y].state = True
-        grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT, agent)
+        x, y =random_spot_chooser(grid)
+        grid[x][y].state = True
+        time.sleep(1) #sleep function (delays movement of agent) -- Agent should be independent of this
+        grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
+        agent.draw(SCREEN)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()

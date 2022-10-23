@@ -1,24 +1,7 @@
-
-# import time
-
-# global_start = time.time()
-# start = time.time()
-
-# while time.time() - global_start <= 10:
-# 	# operation 1
-#     if time.time() - start >= 1:
-#         start = time.time()
-#         print(time.time() - global_start)
-#         # add elements to environment
-#         print("action")
-#     print('independent operation')
-
+from threading import Thread
 import pygame
 import random
 import time
-
-global_start = time.time()
-start = time.time()
 
 WIN_HEIGHT = 196
 WIN_WIDTH = 392
@@ -112,7 +95,7 @@ def random_spot_chooser(grid):
     return x, y
     
 def main():
-    global SCREEN, CLOCK, start
+    global SCREEN, CLOCK
     pygame.init()
     fps=30
     fpsclock=pygame.time.Clock()
@@ -120,11 +103,9 @@ def main():
     grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
     agent = Agent(0, 0, 28)
     while True:
-        if time.time() - start >= 1:
-            start = time.time()
-            x, y =random_spot_chooser(grid)
-            grid[x][y].state = True
-        #time.sleep(1) #sleep function (delays movement of agent) -- Agent should be independent of this
+        x, y =random_spot_chooser(grid)
+        grid[x][y].state = True
+        time.sleep(1) #sleep function (delays movement of agent) -- Agent should be independent of this
         grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
         agent.draw(SCREEN)
         for event in pygame.event.get():
