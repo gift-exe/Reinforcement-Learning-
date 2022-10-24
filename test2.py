@@ -1,3 +1,4 @@
+from concurrent.futures import thread
 from threading import Thread
 import pygame
 import random
@@ -93,8 +94,18 @@ def random_spot_chooser(grid):
     y = random.randint(0, len(grid[x])-1)
 
     return x, y
+
+def obj_spawner():
+    while True:
+        global grid
+        x, y =random_spot_chooser(grid)
+        grid[x][y].state = True
+        time.sleep(1) 
+        grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
     
-def main():
+
+if __name__ == "__main__":
+    thread = Thread(target=obj_spawner, args=(), daemon=True)
     global SCREEN, CLOCK
     pygame.init()
     fps=30
@@ -102,11 +113,8 @@ def main():
     SCREEN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
     agent = Agent(0, 0, 28)
+    thread.start()
     while True:
-        x, y =random_spot_chooser(grid)
-        grid[x][y].state = True
-        time.sleep(1) #sleep function (delays movement of agent) -- Agent should be independent of this
-        grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
         agent.draw(SCREEN)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -130,4 +138,3 @@ def main():
         pygame.display.update()
         fpsclock.tick(fps)
 
-main()
