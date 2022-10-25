@@ -1,4 +1,3 @@
-from multiprocessing import current_process
 import pygame
 import random
 import time
@@ -14,9 +13,6 @@ BLACK = (0, 0, 0)
 
 AGENT = (0, 255, 0)
 OBJECTIVE = (255, 0, 0)
-
-global_start = time.time()
-start = time.time()
 
 class Spot():
     def __init__(self, row, column, width, total_rows):
@@ -93,11 +89,37 @@ def draw(win, grid, rows, columns, width, height):
 def random_spot_chooser(grid):
     x = random.randint(0, len(grid)-1)
     y = random.randint(0, len(grid[x])-1)
-
     return x, y
+
+def event_listerners(agent):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+        agent_listerner(event, agent)
+            
+def agent_listerner(event, agent):
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_a:
+            if agent.get_pos()[0] != 0:
+                agent.row = agent.row - 1
+        if event.key == pygame.K_w:
+            if agent.get_pos()[1] != 0:
+                agent.column = agent.column -1
+        if event.key == pygame.K_s:
+            if agent.get_pos()[1] != 6:
+                agent.column = agent.column + 1
+        if event.key == pygame.K_d:
+            if agent.get_pos()[0] != 13:
+                agent.row = agent.row + 1
+
+def object_spawner(grid):
     
+    
+    return grid
 def main():
-    global SCREEN, CLOCK, start
+    global SCREEN
+    start = time.time()
     pygame.init()
     fps=30
     fpsclock=pygame.time.Clock()
@@ -111,25 +133,7 @@ def main():
             grid[x][y].state = True
         grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
         agent.draw(SCREEN)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-            
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    if agent.get_pos()[0] != 0:
-                        agent.row = agent.row - 1
-                if event.key == pygame.K_w:
-                    if agent.get_pos()[1] != 0:
-                        agent.column = agent.column -1
-                if event.key == pygame.K_s:
-                    if agent.get_pos()[1] != 6:
-                        agent.column = agent.column + 1
-                if event.key == pygame.K_d:
-                    if agent.get_pos()[0] != 13:
-                        agent.row = agent.row + 1
+        event_listerners(agent)
         current_pos = agent.get_pos()
         if grid[current_pos[0]][current_pos[1]].state == True:
             grid[current_pos[0]][current_pos[1]].state = False
