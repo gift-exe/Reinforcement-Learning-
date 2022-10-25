@@ -113,10 +113,6 @@ def agent_listerner(event, agent):
             if agent.get_pos()[0] != 13:
                 agent.row = agent.row + 1
 
-def object_spawner(grid):
-    
-    
-    return grid
 def main():
     global SCREEN
     start = time.time()
