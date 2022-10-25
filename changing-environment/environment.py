@@ -1,3 +1,4 @@
+from multiprocessing import current_process
 import pygame
 import random
 import time
@@ -14,6 +15,8 @@ BLACK = (0, 0, 0)
 AGENT = (0, 255, 0)
 OBJECTIVE = (255, 0, 0)
 
+global_start = time.time()
+start = time.time()
 
 class Spot():
     def __init__(self, row, column, width, total_rows):
@@ -94,7 +97,7 @@ def random_spot_chooser(grid):
     return x, y
     
 def main():
-    global SCREEN, CLOCK
+    global SCREEN, CLOCK, start
     pygame.init()
     fps=30
     fpsclock=pygame.time.Clock()
@@ -102,11 +105,13 @@ def main():
     grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
     agent = Agent(0, 0, 28)
     while True:
-        x, y =random_spot_chooser(grid)
-        grid[x][y].state = True
-        time.sleep(1) #sleep function (delays movement of agent) -- Agent should be independent of this
+        if time.time() - start >= 1:
+            start = time.time()
+            x, y =random_spot_chooser(grid)
+            grid[x][y].state = True
         grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
         agent.draw(SCREEN)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -125,7 +130,11 @@ def main():
                 if event.key == pygame.K_d:
                     if agent.get_pos()[0] != 13:
                         agent.row = agent.row + 1
+        current_pos = agent.get_pos()
+        if grid[current_pos[0]][current_pos[1]].state == True:
+            grid[current_pos[0]][current_pos[1]].state = False
 
+        
         pygame.display.update()
         fpsclock.tick(fps)
 
