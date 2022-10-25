@@ -131,13 +131,15 @@ def main():
             start = time.time()
             x, y =random_spot_chooser(grid)
             grid[x][y].state = True
+        
         grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
+        
         agent.draw(SCREEN)
         
         event_listerners(agent)
-
+        
         agent_object_picker(agent, grid)
-
+        
         pygame.display.update()
         fpsclock.tick(fps)
 
