@@ -112,6 +112,10 @@ def agent_listerner(event, agent):
         if event.key == pygame.K_d:
             if agent.get_pos()[0] != 13:
                 agent.row = agent.row + 1
+def agent_object_picker(agent, grid):
+    current_pos = agent.get_pos()
+    if grid[current_pos[0]][current_pos[1]].state == True:
+        grid[current_pos[0]][current_pos[1]].state = False
 
 def main():
     global SCREEN
@@ -129,12 +133,11 @@ def main():
             grid[x][y].state = True
         grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
         agent.draw(SCREEN)
-        event_listerners(agent)
-        current_pos = agent.get_pos()
-        if grid[current_pos[0]][current_pos[1]].state == True:
-            grid[current_pos[0]][current_pos[1]].state = False
-
         
+        event_listerners(agent)
+
+        agent_object_picker(agent, grid)
+
         pygame.display.update()
         fpsclock.tick(fps)
 
