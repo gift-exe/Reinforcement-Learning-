@@ -42,10 +42,11 @@ class Spot():
         pygame.draw.rect(win, self.get_color(), (self.x/2, self.y/2, self.spot_width/2, self.spot_width/2))
     
 class Agent():
-    def __init__(self, column, row, width):
+    def __init__(self, column, row, width, score):
         self.row = row
         self.column = column
         self.agent_width = width
+        self.score = score
         self.color = AGENT
     def get_coordinates(self):
         x = self.agent_width * self.row
@@ -127,23 +128,30 @@ def agent_listerner(event, agent):
 def agent_object_picker(agent, grid):
     current_pos = agent.get_pos()
     if grid[current_pos[0]][current_pos[1]].state == True:
+        agent.score = agent.score + 1
         grid[current_pos[0]][current_pos[1]].state = False
 
 def main():
     global SCREEN
     start = time.time()
+    time_limit = time.time()
     pygame.init()
     fps=30
     fpsclock=pygame.time.Clock()
     SCREEN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
-    agent = Agent(0, 0, 28)
+    agent = Agent(0, 0, 28, 0)
     while True:
-        if time.time() - start >= 0.1:
+        if time.time() - time_limit >= 120:
+            print('time limit reached')
+            print(f'score: {agent.score}')
+            break
+        if time.time() - start >= 0.4:
             start = time.time()
             chosen_spot = random_spot_chooser(grid)
             if chosen_spot == None:
                 print('Mission Failed!! All cells have been occupied')
+                print(f'score: {agent.score}')
                 break
             grid[chosen_spot.row][chosen_spot.column].state = True
         
