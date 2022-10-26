@@ -26,7 +26,7 @@ class Spot():
         self.color = self.get_color()
     
     def __repr__(self):
-        return f'{self.state}'
+        return f'position: {(self.row, self.column)}, \n state: {self.state}\n'
     
     def get_color(self):
         if self.state:
