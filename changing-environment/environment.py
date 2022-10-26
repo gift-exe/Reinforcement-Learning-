@@ -25,6 +25,9 @@ class Spot():
         self.total_rows = total_rows
         self.color = self.get_color()
     
+    # def __repr__(self):
+    #     return f'{self.state}'
+    
     def get_color(self):
         if self.state:
             color = OBJECTIVE
@@ -87,9 +90,18 @@ def draw(win, grid, rows, columns, width, height):
 
 #to create a function that randomly assign states to different spot objects in the grid
 def random_spot_chooser(grid):
-    x = random.randint(0, len(grid)-1)
-    y = random.randint(0, len(grid[x])-1)
-    return x, y
+    new_grid = []
+    for row in grid:
+        for spot in row:
+            if spot.state == False:
+                new_grid.append(spot)
+            
+    if len(new_grid)<=1:
+        return None
+
+    spot = random.choice(new_grid)
+
+    return spot
 
 def event_listerners(agent):
     for event in pygame.event.get():
@@ -127,10 +139,13 @@ def main():
     grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
     agent = Agent(0, 0, 28)
     while True:
-        if time.time() - start >= 1:
+        if time.time() - start >= 0.1:
             start = time.time()
-            x, y =random_spot_chooser(grid)
-            grid[x][y].state = True
+            chosen_spot = random_spot_chooser(grid)
+            if chosen_spot == None:
+                print('Mission Failed!! All cells have been occupied')
+                break
+            grid[chosen_spot.row][chosen_spot.column].state = True
         
         grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
         
