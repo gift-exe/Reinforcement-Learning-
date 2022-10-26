@@ -25,8 +25,8 @@ class Spot():
         self.total_rows = total_rows
         self.color = self.get_color()
     
-    # def __repr__(self):
-    #     return f'{self.state}'
+    def __repr__(self):
+        return f'{self.state}'
     
     def get_color(self):
         if self.state:
