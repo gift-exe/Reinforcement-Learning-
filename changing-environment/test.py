@@ -1,6 +1,7 @@
 import pygame
 import random
 import time
+import numpy as np
 
 WIN_HEIGHT = 196
 WIN_WIDTH = 392
@@ -48,6 +49,9 @@ class Agent():
         self.agent_width = width
         self.score = score
         self.color = AGENT
+        self.actions = ['up', 'down', 'left', 'right']
+        self.exp_rate = 0.3
+    
     def get_coordinates(self):
         x = self.agent_width * self.row
         y = self.agent_width * self.column
@@ -58,6 +62,14 @@ class Agent():
         
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.get_coordinates()[0], self.get_coordinates()[1], self.agent_width, self.agent_width))
+    
+    def choose_action(self):
+        if np.random.uniform(0, 1) <= self.exp_rate:
+            action = random.choice(self.actions)
+        else:
+            for a in self.actions:
+                nxt_reward = self.
+        return action
     
 
 def make_grid(rows, columns, width):
@@ -104,27 +116,26 @@ def random_spot_chooser(grid):
 
     return spot
 
-def event_listerners(agent):
+def event_listerners():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             quit()
-        agent_listerner(event, agent)
-     
-def agent_listerner(event, agent):
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_a:
-            if agent.get_pos()[0] != 0:
-                agent.row = agent.row - 1
-        if event.key == pygame.K_w:
-            if agent.get_pos()[1] != 0:
-                agent.column = agent.column -1
-        if event.key == pygame.K_s:
-            if agent.get_pos()[1] != 6:
-                agent.column = agent.column + 1
-        if event.key == pygame.K_d:
-            if agent.get_pos()[0] != 13:
-                agent.row = agent.row + 1
+
+def agent_listerner(agent):
+    action = agent.choose_action()
+    if action == 'left':
+        if agent.get_pos()[0] != 0:
+            agent.row = agent.row - 1
+    if action == 'up':
+        if agent.get_pos()[1] != 0:
+            agent.column = agent.column -1
+    if action == 'down':
+        if agent.get_pos()[1] != 6:
+            agent.column = agent.column + 1
+    if action == 'right':
+        if agent.get_pos()[0] != 13:
+            agent.row = agent.row + 1
 
 def agent_object_picker(agent, grid):
     current_pos = agent.get_pos()
@@ -143,24 +154,29 @@ def main():
     grid = make_grid(ROWS, COLUMNS, WIN_WIDTH)
     agent = Agent(0, 0, 28, 0)
     while True:
-        if time.time() - time_limit >= 120:
-            print('time limit reached')
-            print(f'score: {agent.score}')
-            break
-        if time.time() - start >= 0.4:
-            start = time.time()
-            chosen_spot = random_spot_chooser(grid)
-            if chosen_spot == None:
-                print('Mission Failed!! All cells have been occupied')
-                print(f'score: {agent.score}')
-                break
-            grid[chosen_spot.row][chosen_spot.column].state = True
+        # if time.time() - time_limit >= 120:
+        #     print('time limit reached')
+        #     print(f'score: {agent.score}')
+        #     break
+
+        # if time.time() - start >= 0.4:
+        #     start = time.time()
+        #     chosen_spot = random_spot_chooser(grid)
+        #     if chosen_spot == None:
+        #         print('Mission Failed!! All cells have been occupied')
+        #         print(f'score: {agent.score}')
+        #         break
+        #     grid[chosen_spot.row][chosen_spot.column].state = True
         
         grid = draw(SCREEN, grid, ROWS, COLUMNS, WIN_WIDTH, WIN_HEIGHT)
         
         agent.draw(SCREEN)
         
-        event_listerners(agent)
+        if time.time() - start >= 0.3:
+            start = time.time()
+            agent_listerner(agent)
+
+        event_listerners()        
         
         agent_object_picker(agent, grid)
         
