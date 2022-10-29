@@ -68,7 +68,7 @@ class Agent():
             action = random.choice(self.actions)
         else:
             for a in self.actions:
-                nxt_reward = self.
+                pass
         return action
     
 
