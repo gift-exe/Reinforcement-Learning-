@@ -70,7 +70,6 @@ class Agent():
             for a in self.actions:
                 pass
         return action
-    
 
 def make_grid(rows, columns, width):
     grid = []
