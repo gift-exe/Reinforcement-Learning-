@@ -90,11 +90,11 @@ def draw(win, grid, rows, columns, width, height):
     return grid
 
 #to create a function that randomly assign states to different spot objects in the grid
-def random_spot_chooser(grid):
+def random_spot_chooser(grid, agent_position):
     new_grid = []
     for row in grid:
         for spot in row:
-            if spot.state == False:
+            if spot.state == False and spot.get_pos() != agent_position:
                 new_grid.append(spot)
             
     if len(new_grid)<=1:
@@ -148,7 +148,7 @@ def main():
             break
         if time.time() - start >= 0.4:
             start = time.time()
-            chosen_spot = random_spot_chooser(grid)
+            chosen_spot = random_spot_chooser(grid, agent.get_pos())
             if chosen_spot == None:
                 print('Mission Failed!! All cells have been occupied')
                 print(f'score: {agent.score}')
