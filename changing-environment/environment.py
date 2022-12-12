@@ -48,6 +48,7 @@ class Agent():
         self.agent_width = width
         self.score = score
         self.color = AGENT
+        
     def get_coordinates(self):
         x = self.agent_width * self.row
         y = self.agent_width * self.column
