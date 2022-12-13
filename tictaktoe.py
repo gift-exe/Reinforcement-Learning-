@@ -275,13 +275,13 @@ class HumanPlayer:
 
 if __name__ == "__main__":
     # training
-    p1 = Player("p1")
-    p2 = Player("p2")
+    #p1 = Player("p1")
+    #p2 = Player("p2")
 
-    st = State(p1, p2)
-    print("training...")
-    st.play(50000)
-    st.p1.savePolicy
+    #st = State(p1, p2)
+    #print("training...")
+    #st.play(50000)
+    #st.p1.savePolicy
 
     # play with human
     p1 = Player("computer", exp_rate=0)
