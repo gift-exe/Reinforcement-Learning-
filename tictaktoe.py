@@ -143,9 +143,11 @@ class State:
         while not self.isEnd:
             # Player 1
             positions = self.availablePositions()
+
             p1_action = self.p1.chooseAction(positions, self.board, self.playerSymbol)
             # take action and upate board state
             self.updateState(p1_action)
+            
             self.showBoard()
             # check board status if it is end
             win = self.winner()
@@ -160,9 +162,10 @@ class State:
             else:
                 # Player 2
                 positions = self.availablePositions()
-                p2_action = self.p2.chooseAction(positions)
 
+                p2_action = self.p2.chooseAction(positions)
                 self.updateState(p2_action)
+
                 self.showBoard()
                 win = self.winner()
                 if win is not None:
@@ -289,5 +292,7 @@ if __name__ == "__main__":
 
     p2 = HumanPlayer("human")
 
+    
     st = State(p1, p2)
     st.play2()
+    
