@@ -139,7 +139,7 @@ class State:
                         break
 
     # play with human
-    def play2(self):
+    def b_play2(self):
         while not self.isEnd:
             # Player 1
             positions = self.availablePositions()
@@ -175,6 +175,40 @@ class State:
                         print("tie!")
                     self.reset()
                     break
+
+    def h_play2(self):
+        while not self.isEnd:
+            #player 1 (human):
+            positions = self.availablePositions()
+            p1_action = self.p2.chooseAction(positions)
+            self.updateState(p1_action)
+            self.showBoard()
+
+            win = self.winner()
+            if win is not None:
+                if win == 1:
+                    print(self.p2.name, 'wins!')
+                else:
+                    print('tie!')
+                self.reset()
+                break
+
+            else:
+                #player 2 bot
+                positions = self.availablePositions()
+                p2_action = self.p1.chooseAction(positions, self.board, -1)
+                self.updateState(p2_action)
+                self.showBoard()
+                win = self.winner()
+                if win is not None:
+                    if win is not None:
+                        if win == -1:
+                            print(self.p1.name, 'wins!')
+                        else:
+                            print('tie!')
+                        self.reset()
+                        break
+
 
     def showBoard(self):
         # p1: x  p2: o
@@ -294,5 +328,10 @@ if __name__ == "__main__":
 
     
     st = State(p1, p2)
-    st.play2()
+    inp = input("Wanna Go First? :] \n->")
+    if 'y' in inp.lower():
+        st.h_play2()
+    else:
+        st.b_play2()
+
     
