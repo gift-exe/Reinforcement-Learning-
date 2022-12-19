@@ -100,7 +100,6 @@ def random_spot_chooser(grid, agent_position):
             
     if len(new_grid)<=1:
         return None
-
     spot = random.choice(new_grid)
 
     return spot
